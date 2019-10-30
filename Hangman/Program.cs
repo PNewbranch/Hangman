@@ -49,18 +49,30 @@ namespace Hangman
             char[] coveredWord = new char[correctWord.Length];
             coveredWord = CreateACoveredWord(correctWord);
 
-            bool uppRunning = true;
-
-            while 
-
-            //usersChoise = int.Parse(Console.ReadKey().ToString());
-            usersLoopChoise = int.Parse(Console.ReadLine());
-            switch (usersLoopChoise)
+           bool uppRunning = true;
+           while (uppRunning)
             {
-                case 9:
-                    //Console.WriteLine("Du har valt att avsluta!");
-                    uppRunning = false;
-                    break;
+                Console.WriteLine("Ange 1 för att gissa på bokstav.");
+                Console.WriteLine("Ange 2 för att gissa på ord.");
+                Console.WriteLine("Ange 9 för att avsluta.");
+                char usersLoopChoise = Console.ReadKey().KeyChar;
+
+                switch (usersLoopChoise)
+                {
+                    case '9':
+                        //Console.WriteLine("Du har valt att avsluta!");
+                        uppRunning = false;
+                        break;
+                    case '1':
+                        Console.WriteLine("Vi testar en bokstav!");
+                        break;
+                    case '2':
+                        Console.WriteLine("Vi testar på ordet!");
+                        break;
+                }
+
+            }
+
 
 
 
