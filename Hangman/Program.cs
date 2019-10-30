@@ -16,12 +16,24 @@ namespace Hangman
             return wordList[randomNo.Next(0, 9)]; //use random number to pick a word
         }
 
+        private static char[] CreateACoveredWord(string wordToCover)
+        {
+            char[] coveredWord = new char[wordToCover.Length]; //create a array with character
+            for (int i = 0; i < (wordToCover.Length); i++) //fill it with -
+            {
+                coveredWord[i] = 's';
+            }
+            Console.WriteLine("Slumpvist valda ordet dolt: "); //visar det dolda ordet 
+            Console.WriteLine(coveredWord); //visar det dolda ordet 
+            return coveredWord;
+        }
+
         private static char AskForACharacter() //(outparametern) RETURN-värdet skrivs FÖRE metodnamnet - return= DOUBLE
         {
             Console.WriteLine("Ange en bokstav: ");
             return Console.ReadKey().KeyChar; //NOTERA!!!!!! - glöm inte punkten som talar om vad som skall retuneras
         }
-
+        
         private static string CheckWord(string cleanedWord)
         {
             return "jämför ord";
@@ -33,17 +45,32 @@ namespace Hangman
 
             string correctWord = GetARandomWord(); //get a radom word from list
             Console.WriteLine("Random ord: \n" + correctWord);
-            
 
-            char[] coveredWord = new char[correctWord.Length]; //create a array with character
-            for (int i=0; i < (correctWord.Length); i++) //fill it with -
+            char[] coveredWord = new char[correctWord.Length];
+            coveredWord = CreateACoveredWord(correctWord);
+
+            bool uppRunning = true;
+
+            while 
+
+            //usersChoise = int.Parse(Console.ReadKey().ToString());
+            usersLoopChoise = int.Parse(Console.ReadLine());
+            switch (usersLoopChoise)
             {
-                coveredWord[i] = '-';
-            }
-            Console.WriteLine("Slumpvist valda ordet dolt: "); //visar det dolda ordet 
-            Console.WriteLine(coveredWord); //visar det dolda ordet 
+                case 9:
+                    //Console.WriteLine("Du har valt att avsluta!");
+                    uppRunning = false;
+                    break;
 
+
+
+
+            char characterFromUser = AskForACharacter();
+            Console.WriteLine(characterFromUser); 
+            
             Console.WriteLine(AskForACharacter());
+
+
 
         } //main
 
