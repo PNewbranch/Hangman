@@ -5,18 +5,32 @@ namespace Hangman
     class Program
     {
 
-        private static string GetARandomWord() //skapar en array med 10 ord och returnerar ett random word
+        //private static string[] CreateAListOfWords() //finns ingen anledning att skapa en egen metod för detta
+        //{
+        //    string[] wordList = new string[] { "solros", "mask", "orm", "finansinspektionen", "kråka", "varulv", "gädda", "rosmarin", "avvikelse", "munk" };
+        //    Console.WriteLine("Dessa ord har vi i listan:");
+        //    foreach (string value in wordList)
+        //    {
+        //        Console.WriteLine(value);
+        //    }
+        //        return wordList;
+        //} //finns ingen anledning att skapa en egen metod för detta
+
+
+        private static string GetARandomWord(string[] listOfWords) //skapar en array med 10 ord och returnerar ett random word
         {
-            string[] wordList = new string[] {"solros", "mask", "orm", "finansinspektionen", "kråka", "varulv", "gädda", "rosmarin", "avvikelse", "munk" };
-            Console.WriteLine("Dessa ord har vi i listan:");
-            foreach (string value in wordList) 
-            { 
-                Console.WriteLine(value); 
-            }  
+            //string[] wordList = new string[] { "solros", "mask", "orm", "finansinspektionen", "kråka", "varulv", "gädda", "rosmarin", "avvikelse", "munk" };
+            //Console.WriteLine("Dessa ord har vi i listan:");
+            //foreach (string value in wordList)
+            //{
+            //    Console.WriteLine(value);
+            //}
 
             //bryt eventuellt ut detta i egen metod
             Random randomNo = new Random(); //get a random number
-            return wordList[randomNo.Next(0, 9)]; //use random number to pick a word
+            string randomWord = listOfWords[randomNo.Next(0, 9)];
+            //Console.WriteLine("Det utvalda ordet är :" + randomWord);
+            return randomWord;  //use random number to pick a word
         }
 
         private static char[] CreateACoveredWord(string wordToCover)
@@ -26,9 +40,8 @@ namespace Hangman
             {
                 coveredWord[i] = '-';
             }
-            Console.Write("Ordet i dold version blir: "); //visar det dolda ordet 
+            Console.Write("Ordet i dold version: "); //visar det dolda ordet 
             Console.WriteLine(coveredWord); //visar det dolda ordet 
-            Console.WriteLine();
             return coveredWord;
         }
 
@@ -38,45 +51,63 @@ namespace Hangman
             Console.WriteLine("Ange 1 för att gissa på bokstav.");
             Console.WriteLine("Ange 2 för att gissa på ord.");
             Console.WriteLine("Ange 9 för att avsluta.\n");
-            Console.Write("Gör ditt val: ");
+            //return AskForACharacter("Ange 1, 2 eller 9: ");
+        }
+               
+        private static char AskForACharacter(string infoToUSer)   //metoden skriver ut den text modulen anropas med
+        {
+            Console.Write(infoToUSer);
+            return Console.ReadKey().KeyChar;               //NOTERA!!!!!! - glöm inte punkten som talar om typen/vad som skall retuneras
         }
 
-        private static char AskForACharacter() //(outparametern) RETURN-värdet skrivs FÖRE metodnamnet - return= DOUBLE
+        private static string AskForAString(string inforToUser)
         {
-            Console.WriteLine("Ange en bokstav: ");
-            return Console.ReadKey().KeyChar; //NOTERA!!!!!! - glöm inte punkten som talar om vad som skall retuneras
+            Console.Write(inforToUser);
+            return Console.ReadLine(); 
         }
         
-        private static string CheckWord(string cleanedWord)
+        private static bool CheckAWord(string inputWord)
         {
-            return "jämför ord";
+            Console.Write("\n Ange ord du vill testa: ");
+            string wordToTest = Console.ReadLine();
+            Console.WriteLine(wordToTest);
+            return true;
         }
 
         static void Main(string[] args)
         {
 
-            string correctWord = GetARandomWord(); //get a radom word from list
-            Console.WriteLine("\nDet slumpvisa valda ordet: " + correctWord);
+            string[] wordList = new string[] { "solros", "mask", "orm", "finansinspektionen", "kråka", "varulv", "gädda", "rosmarin", "avvikelse", "munk" };
+            
+            string correctWord = GetARandomWord(wordList); //get a radom word from list
 
-            char[] coveredWord = new char[correctWord.Length]; //skapa en kopia av det valda ordet
-            coveredWord = CreateACoveredWord(correctWord);     //strecka ut alla bokstäver
+            char[] coveredWord = new char[correctWord.Length];  //skapa en char-array med lika många bokstäver om originalordet
+            coveredWord = CreateACoveredWord(correctWord);      //kasta in ordet och få tillbaka den streckade varianten
+
+            ShowUserChoiseMeny();
 
             bool uppRunning = true;
             while (uppRunning)
             {
-                ShowUserChoiseMeny();
-                char usersLoopChoise = Console.ReadKey().KeyChar;
+
+                //ShowUserChoiseMeny();
+                char usersLoopChoise = AskForACharacter("\nAnge 1, 2 eller 9: "); //kastar in testen som frågar efter char
                 switch (usersLoopChoise)
                 {
                     case '9':
-                        //Console.WriteLine("Du har valt att avsluta!");
-                        uppRunning = false;
+                        AskForACharacter("\nDu har valt att avsluta!");
+                        uppRunning = false; //deaktiverar yttre loopen
                         break;
                     case '1':
-                        Console.WriteLine("Vi testar en bokstav!");
+                        char charFromUser = AskForACharacter(" Ange en bokstav: ");
+                        Console.Write("Tack, vi testar bokstaven.");
+                        //Console.WriteLine(charFromUser);
                         break;
                     case '2':
-                        Console.WriteLine("Vi testar på ordet!");
+                        string wordFromUser = AskForAString(" Ange ett ord: ");
+                        Console.Write("Tack, vi testar ordet.");
+                        //Console.WriteLine(wordFromUser);
+                        //bool CheckedWord = CheckAWord(wordFromUser);
                         break;
                 } //switch
 
