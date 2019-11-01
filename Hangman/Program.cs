@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Hangman
 {
@@ -29,30 +30,32 @@ namespace Hangman
             //bryt eventuellt ut detta i egen metod
             Random randomNo = new Random(); //get a random number
             string randomWord = listOfWords[randomNo.Next(0, 9)];
-            //Console.WriteLine("Det utvalda ordet är :" + randomWord);
+            Console.WriteLine("Det utvalda ordet är :" + randomWord);
             return randomWord;  //use random number to pick a word
         }
 
-        private static char[] CreateACoveredWord(string wordToCover)
+        public static char[] CreateACoveredWord(string wordToCover)
         {
             char[] coveredWord = new char[wordToCover.Length]; //create a array with character
             for (int i = 0; i < (wordToCover.Length); i++) //fill it with -
             {
                 coveredWord[i] = '-';
             }
-            Console.Write("Ordet i dold version: "); //visar det dolda ordet 
-            Console.WriteLine(coveredWord); //visar det dolda ordet 
+            //Console.Write("Ordet i dold version: "); //visar det dolda ordet 
+            //Console.WriteLine(coveredWord); //visar det dolda ordet 
             return coveredWord;
         }
 
-        private static void ShowUserChoiseMeny()
-        {
-            Console.WriteLine("Du har tio unika försök på dig att gissa ordet.");
-            Console.WriteLine("Ange 1 för att gissa på bokstav.");
-            Console.WriteLine("Ange 2 för att gissa på ord.");
-            Console.WriteLine("Ange 9 för att avsluta.\n");
-            //return AskForACharacter("Ange 1, 2 eller 9: ");
-        }
+        //public static void ShowUserChoiseMeny()
+        //{
+        //    Console.Clear();
+        //    Console.WriteLine("HANGMAN");
+        //    Console.Write("Gissa ordet: ");
+        //    Console.WriteLine(coveredWord);
+        //    Console.WriteLine("Du har 10 unika gissningar, antalet försök kvar: " + counter);
+        //    Console.WriteLine("Hitintills använda bokstäver: " + usedCharacters);
+        //    Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
+        //}
                
         private static char AskForACharacter(string infoToUSer)   //metoden skriver ut den text modulen anropas med
         {
@@ -78,36 +81,52 @@ namespace Hangman
         {
 
             string[] wordList = new string[] { "solros", "mask", "orm", "finansinspektionen", "kråka", "varulv", "gädda", "rosmarin", "avvikelse", "munk" };
-            
-            string correctWord = GetARandomWord(wordList); //get a radom word from list
-
+            string correctWord = GetARandomWord(wordList);      //get a radom word from list
             char[] coveredWord = new char[correctWord.Length];  //skapa en char-array med lika många bokstäver om originalordet
             coveredWord = CreateACoveredWord(correctWord);      //kasta in ordet och få tillbaka den streckade varianten
+            StringBuilder usedCharacters = new StringBuilder();
+                
+            //ShowUserChoiseMeny();
 
-            ShowUserChoiseMeny();
-
-            bool uppRunning = true;
-            while (uppRunning)
+            int counter = 10;
+            //bool uppRunning = true;
+            while (counter > 0)
             {
+                Console.Clear();
+                Console.WriteLine("HANGMAN");
+                Console.Write("Gissa ordet: ");
+                Console.WriteLine(coveredWord);
+                Console.WriteLine("Du har 10 unika gissningar, antalet försök kvar: " + counter);
+                Console.WriteLine("Hitintills använda bokstäver: " + usedCharacters);
+                Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
 
                 //ShowUserChoiseMeny();
-                char usersLoopChoise = AskForACharacter("\nAnge 1, 2 eller 9: "); //kastar in testen som frågar efter char
+                char usersLoopChoise = AskForACharacter("\nAnge ditt val: "); //kastar in testen som frågar efter char
                 switch (usersLoopChoise)
                 {
                     case '9':
-                        AskForACharacter("\nDu har valt att avsluta!");
-                        uppRunning = false; //deaktiverar yttre loopen
+                        AskForACharacter("\nDu har valt att ge upp!");
+                        //uppRunning = false; //deaktiverar yttre loopen
+                        counter = 0;
                         break;
                     case '1':
+                      
                         char charFromUser = AskForACharacter(" Ange en bokstav: ");
-                        Console.Write("Tack, vi testar bokstaven.");
-                        //Console.WriteLine(charFromUser);
+                        usedCharacters.Append(charFromUser);
+
+                        counter--;
+ 
                         break;
                     case '2':
                         string wordFromUser = AskForAString(" Ange ett ord: ");
-                        Console.Write("Tack, vi testar ordet.");
-                        //Console.WriteLine(wordFromUser);
-                        //bool CheckedWord = CheckAWord(wordFromUser);
+                        if (wordFromUser == correctWord) {
+                            Console.WriteLine("Grattis du har gissat rätt ord");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ordet var fel, försök igen");
+                            counter--;
+                        }
                         break;
                 } //switch
 
