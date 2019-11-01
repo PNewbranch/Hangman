@@ -117,13 +117,26 @@ namespace Hangman
                     case '1':
                         char charFromUser = AskForACharacter(" Ange en bokstav: ");
                         usedCharacters.Append(charFromUser);
-                        int existsInPos = correctWord.IndexOf(charFromUser); //om bokstav finns, ta reda på dess placering
-                        if (existsInPos>-1)
+
+                        int startPos = 0;
+ 
+                         while (startPos > -1 )
                         {
-                            coveredWord[existsInPos] = charFromUser;
-                            //Console.WriteLine("Placering" + existsInPos);
-                            //System.Threading.Thread.Sleep(1000);  
+                            int existsInPos = correctWord.IndexOf(charFromUser, startPos); //om bokstav finns, ta reda på dess placering
+                            if (existsInPos > -1)
+                            {
+                                coveredWord[existsInPos] = charFromUser;
+                                //Console.WriteLine("Placering" + existsInPos);
+                                //System.Threading.Thread.Sleep(1000);  
+                                startPos = existsInPos + 1;
+                            }
+                            else
+                            {
+                                startPos = -1;
+                            }
+
                         }
+
                         counter--;
                         break;
                     case '2':
