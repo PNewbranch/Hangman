@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 
 namespace Hangman
 {
@@ -56,7 +57,7 @@ namespace Hangman
         //    Console.WriteLine("Hitintills använda bokstäver: " + usedCharacters);
         //    Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
         //}
-               
+
         private static char AskForACharacter(string infoToUSer)   //metoden skriver ut den text modulen anropas med
         {
             Console.Write(infoToUSer);
@@ -66,9 +67,9 @@ namespace Hangman
         private static string AskForAString(string inforToUser)
         {
             Console.Write(inforToUser);
-            return Console.ReadLine(); 
+            return Console.ReadLine();
         }
-        
+
         private static bool CheckAWord(string inputWord)
         {
             Console.Write("\n Ange ord du vill testa: ");
@@ -77,9 +78,12 @@ namespace Hangman
             return true;
         }
 
+
+
         static void Main(string[] args)
         {
 
+ 
             string[] wordList = new string[] { "solros", "mask", "orm", "finansinspektionen", "kråka", "varulv", "gädda", "rosmarin", "avvikelse", "munk" };
             string correctWord = GetARandomWord(wordList);      //get a radom word from list
             char[] coveredWord = new char[correctWord.Length];  //skapa en char-array med lika många bokstäver om originalordet
@@ -93,11 +97,12 @@ namespace Hangman
             while (counter > 0)
             {
                 Console.Clear();
+                Console.WriteLine(correctWord);
                 Console.WriteLine("HANGMAN");
                 Console.Write("Gissa ordet: ");
                 Console.WriteLine(coveredWord);
                 Console.WriteLine("Du har 10 unika gissningar, antalet försök kvar: " + counter);
-                Console.WriteLine("Hitintills använda bokstäver: " + usedCharacters);
+                Console.WriteLine("Hitintills testade bokstäver: " + usedCharacters);
                 Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
 
                 //ShowUserChoiseMeny();
@@ -110,17 +115,30 @@ namespace Hangman
                         counter = 0;
                         break;
                     case '1':
-                      
                         char charFromUser = AskForACharacter(" Ange en bokstav: ");
                         usedCharacters.Append(charFromUser);
-
+                        int existsInPos = correctWord.IndexOf(charFromUser); //om bokstav finns, ta reda på dess placering
+                        if (existsInPos>-1)
+                        {
+                            coveredWord[existsInPos] = charFromUser;
+                            //Console.WriteLine("Placering" + existsInPos);
+                            //System.Threading.Thread.Sleep(1000);  
+                        }
                         counter--;
- 
                         break;
                     case '2':
                         string wordFromUser = AskForAString(" Ange ett ord: ");
-                        if (wordFromUser == correctWord) {
+                        if (wordFromUser == correctWord) 
+                        {
                             Console.WriteLine("Grattis du har gissat rätt ord");
+                            for (int i=0; i<correctWord.Length; i++)
+                            {
+                                coveredWord[i] = correctWord[i];
+                                Console.WriteLine(coveredWord);
+                                System.Threading.Thread.Sleep(500);
+
+                                
+                            }
                         }
                         else
                         {
