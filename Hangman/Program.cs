@@ -61,8 +61,8 @@ namespace Hangman
                     keepRunning = false;
                     break;
                 default :
-                    int counter = 10;
-                    while (counter > 0)
+                    int guessCounter = 10;
+                    while (guessCounter > 0)
                     {
                         //lägg ev i egen metod med inparametrar
                         Console.Clear();
@@ -70,7 +70,7 @@ namespace Hangman
                         Console.WriteLine("HANGMAN");
                         Console.Write("Gissa ordet: ");
                         Console.WriteLine(coveredWord);
-                        Console.WriteLine("Du har 10 unika gissningar, antalet försök kvar: " + counter);
+                        Console.WriteLine("Du har 10 unika gissningar, antalet försök kvar: " + guessCounter);
                         Console.WriteLine("Hitintills testade bokstäver: " + usedCharacters);
                         Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
 
@@ -80,7 +80,7 @@ namespace Hangman
                             case '9':
                                 Console.WriteLine("\nDu har valt att ge upp!");
                                 System.Threading.Thread.Sleep(2000);
-                                counter = 0;
+                                guessCounter = 0;
                                 break;
                             case '1':
                                 char charFromUser = AskForACharacter(" Ange en bokstav: ");
@@ -90,30 +90,31 @@ namespace Hangman
                                 while (startPos > -1 )
                                 {
                                     int existsInPos = correctWord.IndexOf(charFromUser, startPos); //om bokstav finns, ta reda på dess placering
-                                    if (existsInPos > -1)
+                                    if (existsInPos > -1) 
                                     {
                                         coveredWord[existsInPos] = charFromUser;
                                         startPos = existsInPos + 1;
-                                            NoOfCharToAssign--;
+                                        NoOfCharToAssign--;
                                     }
-                                    else
+                                    else //bokstav finns inte
                                     {
                                         startPos = -1;
                                     }
 
-                                    if (NoOfCharToAssign == 0)
+                                    if (NoOfCharToAssign == 0) //om alla blanka bokstäver är ifyllda
                                     {
                                             for (int i = 0; i < correctWord.Length; i++)
                                             {
                                                 coveredWord[i] = correctWord[i];
                                             }
-                                            Console.Write("\nCase 1 - Grattis du har gissat rätt ord: ");
+                                            Console.Write("\nGrattis du har gissat rätt ord: ");
                                             Console.WriteLine(coveredWord);
                                             System.Threading.Thread.Sleep(500);
-                                            counter = -99;
+                                            guessCounter = -99;
+                                            startPos = -99;
                                      }
                                 }
-                                counter--;
+                                guessCounter--;
                                 break;
                             case '2':
                                 string wordFromUser = AskForAString(" Ange ett ord: ");
@@ -123,21 +124,21 @@ namespace Hangman
                                     {
                                         coveredWord[i] = correctWord[i];
                                     }
-                                    Console.Write("\nCase 2 - Grattis du har gissat rätt ord: ");
+                                    Console.Write("\nGrattis du har gissat rätt ord: ");
                                     Console.WriteLine(coveredWord);
                                     System.Threading.Thread.Sleep(500);
-                                    counter = 0;
+                                    guessCounter = 0;
                                 }
                                 else
                                 {
                                     Console.WriteLine("Ordet var fel, försök igen");
-                                    counter--;
+                                    guessCounter--;
                                 }
                                 break;
-                        } //switch
-                    } //while counter
+                        } //switch - users menu choise guess character/guess word/give up
+                    } //while guessCounter
                     break;
-                }
+                } //switch - users menu choise play/exit
             } //while keepRunning
         } //main
     } //program
