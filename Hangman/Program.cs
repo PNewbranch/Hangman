@@ -92,6 +92,11 @@ namespace Hangman
                 
             //ShowUserChoiseMeny();
 
+            //while ( )
+            //{
+
+            //}
+
             int counter = 10;
             //bool uppRunning = true;
             while (counter > 0)
@@ -119,8 +124,7 @@ namespace Hangman
                         usedCharacters.Append(charFromUser);
 
                         int startPos = 0;
- 
-                         while (startPos > -1 )
+                        while (startPos > -1 )
                         {
                             int existsInPos = correctWord.IndexOf(charFromUser, startPos); //om bokstav finns, ta reda på dess placering
                             if (existsInPos > -1)
@@ -134,24 +138,20 @@ namespace Hangman
                             {
                                 startPos = -1;
                             }
-
                         }
-
                         counter--;
                         break;
                     case '2':
                         string wordFromUser = AskForAString(" Ange ett ord: ");
                         if (wordFromUser == correctWord) 
                         {
-                            Console.WriteLine("Grattis du har gissat rätt ord");
+                            Console.Write("Grattis du har gissat rätt ord: ");
                             for (int i=0; i<correctWord.Length; i++)
                             {
                                 coveredWord[i] = correctWord[i];
-                                Console.WriteLine(coveredWord);
-                                System.Threading.Thread.Sleep(500);
-
-                                
                             }
+                            Console.WriteLine(coveredWord);
+                            System.Threading.Thread.Sleep(3000);
                         }
                         else
                         {
