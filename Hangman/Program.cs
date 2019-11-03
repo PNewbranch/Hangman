@@ -66,7 +66,7 @@ namespace Hangman
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("\nHANGMAN" + "\nGissa ordet: ");
                         Console.WriteLine(coveredWord);
-                        Console.WriteLine("Du har höst 10 unika gissningar (använd bara små bokstäver), antalet försök kvar: " + guessCounter + "\nHitintills testade bokstäver: " + usedCharacters);
+                        Console.WriteLine("Du har 10 unika gissningar (använd bara små bokstäver), antalet försök kvar: " + guessCounter + "\nHitintills testade bokstäver: " + usedCharacters);
                         Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
 
                         char usersLoopChoise = AskForACharacter("\nAnge ditt val: "); 
