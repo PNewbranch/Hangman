@@ -37,7 +37,7 @@ namespace Hangman
 
         private static void ShowCorrectResult(string correctWord, char[] coveredWord)
         {
-            Console.Write("\nDet dolda ordet är: ");
+            Console.Write("Det dolda ordet är: ");
             Console.ForegroundColor = ConsoleColor.Red;
             for (int i = 0; i < correctWord.Length; i++)
             {
@@ -75,6 +75,7 @@ namespace Hangman
                     int guessCounter = 10;
                     while (guessCounter > 0)
                     {
+                        //show úser interface
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("Slumpat ord: " + correctWord);
@@ -95,12 +96,12 @@ namespace Hangman
                             case '1':
                                 char charFromUser = AskForACharacter(" Ange en bokstav: ");
                                 usedCharacters.Append(charFromUser);
-
                                 int startPos = 0;
-                                while (startPos > -1 )
+                                while (startPos > -1)
                                 {
-                                    int existsInPos = correctWord.IndexOf(charFromUser, startPos); //om bokstav finns, ta reda på dess placering
-                                    if (existsInPos > -1) 
+                                    //kolla om bokstav finns
+                                    int existsInPos = correctWord.IndexOf(charFromUser, startPos);
+                                    if (existsInPos > -1)
                                     {
                                         coveredWord[existsInPos] = charFromUser;
                                         startPos = existsInPos + 1;
@@ -110,20 +111,15 @@ namespace Hangman
                                     {
                                         startPos = -1;
                                     }
-
-                                    if (NoOfCharToAssign == 0) //om alla blanka bokstäver är ifyllda
+                                }
+                                if (NoOfCharToAssign == 0) //om alla blanka bokstäver är ifyllda
+                                {
+                                    for (int i = 0; i < correctWord.Length; i++)
                                     {
-                                        for (int i = 0; i < correctWord.Length; i++)
-                                        {
-                                            coveredWord[i] = correctWord[i];
-                                        }
-                                        ShowCorrectResult(correctWord, coveredWord);
-                                        //Console.Write("\nGrattis du har gissat rätt ord: ");
-                                        //Console.WriteLine(coveredWord);
-                                        //System.Threading.Thread.Sleep(800);
-                                        startPos = -99;
-                                        guessCounter = -99;
-                                     }
+                                        coveredWord[i] = correctWord[i];
+                                    }
+                                    ShowCorrectResult(correctWord, coveredWord);
+                                    guessCounter = -99;
                                 }
                                 guessCounter--;
                                 break;
@@ -132,22 +128,11 @@ namespace Hangman
                                 if (wordFromUser == correctWord) 
                                 {
                                     ShowCorrectResult(correctWord, coveredWord);
-                                    //    Console.Write("Det dolda ordet är: ");
-                                    //    Console.ForegroundColor = ConsoleColor.Red;
-                                    //for (int i=0; i<correctWord.Length; i++)
-                                    //{
-                                    //    coveredWord[i] = correctWord[i];
-                                    //    Console.Write(coveredWord[i]);
-                                    //    System.Threading.Thread.Sleep(800);
-                                    // }
-                                    //Console.ForegroundColor = ConsoleColor.White;
-                                    //Console.WriteLine("\nGrattis du har gissat rätt ord!!! ");
-                                    //System.Threading.Thread.Sleep(800);
                                     guessCounter = -99;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Ordet var fel, försök igen");
+                                    Console.Write("Ordet var fel, försök igen.");
                                     guessCounter--;
                                 }
                                 break;
