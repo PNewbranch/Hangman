@@ -18,7 +18,7 @@ namespace Hangman
             char[] coveredWord = new char[wordToCover.Length];
             for (int i = 0; i < (wordToCover.Length); i++)
             {
-                coveredWord[i] = '-';
+                coveredWord[i] = '_';
             }
             return coveredWord;
         }
@@ -37,7 +37,7 @@ namespace Hangman
 
         private static void ShowUserInterface(string correctWord, char[] coveredWord, int guessCounter, StringBuilder usedCharacters)
         {
-            //Console.Clear();
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("Slumpat ord: " + correctWord);
             Console.ForegroundColor = ConsoleColor.White;
@@ -100,9 +100,16 @@ namespace Hangman
 
                 default :
                     int guessCounter = 10;
-                    while (guessCounter > 0)
+                    while (guessCounter >= 0)
                     {
                         ShowUserInterface(correctWord, coveredWord, guessCounter, usedCharacters);
+
+                        if (guessCounter == 0) {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Du har nu använt alla dina chanser varpå rundan avslutats.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+                        }
 
                         char usersLoopChoise = AskForACharacter("\nAnge ditt val: "); 
                         switch (usersLoopChoise)
@@ -160,11 +167,11 @@ namespace Hangman
                                     guessCounter--;
                                 }
                                 break;
-                        } //switch - users menu choise guess character/guess word/give up
-                    } //while guessCounter
+                        } //switch - users menu choise 2
+                    } //while guessCounter < 10
                     break;
-                } //switch - users menu choise play/exit
+                } //switch - users menu choise 1
             } //while keepRunning
         } //main
-    } //program
-} //namespace
+    } 
+} 
