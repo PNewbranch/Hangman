@@ -15,7 +15,7 @@ namespace Hangman
 
         public static char[] CreateACoveredWord(string wordToCover)
         {
-            char[] coveredWord = new char[wordToCover.Length]; 
+            char[] coveredWord = new char[wordToCover.Length];
             for (int i = 0; i < (wordToCover.Length); i++)
             {
                 coveredWord[i] = '-';
@@ -37,7 +37,7 @@ namespace Hangman
 
         private static void ShowUserInterface(string correctWord, char[] coveredWord, int guessCounter, StringBuilder usedCharacters)
         {
-            Console.Clear();
+            //Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("Slumpat ord: " + correctWord);
             Console.ForegroundColor = ConsoleColor.White;
@@ -48,10 +48,23 @@ namespace Hangman
 
         }
 
+        private static bool CheckIfUsedChar (char charFromUser, StringBuilder usedCharacters) 
+        {
+            bool used = false;
+            for (int i = 0; i < usedCharacters.Length; i++)  ///här är felet troligen
+            {
+                if (charFromUser == usedCharacters[i])
+                {
+                    return used = true;
+                }
+            }
+            return used;
+        }
+
         private static void ShowCorrectResult(string correctWord, char[] coveredWord)
         {
             Console.Write("\nDet dolda ordet är: ");
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Green;
             for (int i = 0; i < correctWord.Length; i++)
             {
                 coveredWord[i] = correctWord[i];
@@ -62,8 +75,6 @@ namespace Hangman
             Console.WriteLine("\nGrattis du har fått fram rätt ord!!! ");
             System.Threading.Thread.Sleep(400);
         }
-
-
 
         static void Main(string[] args)
         {
@@ -86,13 +97,8 @@ namespace Hangman
                 case '9':
                     keepRunning = false;
                     break;
+
                 default :
-
-
-
-
-
-
                     int guessCounter = 10;
                     while (guessCounter > 0)
                     {
@@ -106,44 +112,40 @@ namespace Hangman
                                 System.Threading.Thread.Sleep(800);
                                 guessCounter = -99;
                                 break;
+
                             case '1':
-                                char charFromUser = AskForACharacter(" Ange en bokstav: ");
-                                usedCharacters.Append(charFromUser);
-
-
-
-                                int startPos = 0;
-                                while (startPos > -1)
+                                char charFromUser = AskForACharacter(" Ange en lite bokstav: ");
+                                if (CheckIfUsedChar(charFromUser, usedCharacters) == false) 
                                 {
-                                    //kolla om bokstav finns
-                                    int existsInPos = correctWord.IndexOf(charFromUser, startPos);  //pos5
-                                    if (existsInPos > -1) //finns
+                                    usedCharacters.Append(charFromUser);
+                                    int startPos = 0;
+                                    while (startPos > -1)
                                     {
-                                        coveredWord[existsInPos] = charFromUser;                    //läggs i pos 5
-                                        startPos = existsInPos + 1;
-                                        NoOfCharToAssign--;                                         //om hittat bokstav ta bort en från "kvar att hitta"
+                                        int existsInPos = correctWord.IndexOf(charFromUser, startPos);  //kolla om bokstav finns
+                                            if (existsInPos > -1)                                       //finns
+                                        {
+                                            coveredWord[existsInPos] = charFromUser;                    //läggs bokstaven rätt pos
+                                            startPos = existsInPos + 1;                                 
+                                            NoOfCharToAssign--;
+                                        }
+                                        else //bokstav finns inte
+                                        {
+                                                startPos = -99;
+                                        }
                                     }
-                                    else //bokstav finns inte
-                                    {
-                                        startPos = -1;
-                                    }
-                                }
 
-                                if (NoOfCharToAssign == 0) //om alla blanka bokstäver är ifyllda
-                                {
-                                        Console.WriteLine("Alla tecken Tilldelade.");
+                                    if (NoOfCharToAssign == 0) //om alla blanka bokstäver är ifyllda har spelaren klarat spelet
+                                    {
                                         for (int i = 0; i < correctWord.Length; i++)
                                         {
                                             coveredWord[i] = correctWord[i];
                                         }
                                         ShowCorrectResult(correctWord, coveredWord);
                                         guessCounter = -99;
+                                    }
+                                    guessCounter--;
                                 }
-                                guessCounter--;
                                 break;
-
-
-
 
                             case '2':
                                 string wordFromUser = AskForAString(" Ange ett ord: ");
@@ -160,12 +162,6 @@ namespace Hangman
                                 break;
                         } //switch - users menu choise guess character/guess word/give up
                     } //while guessCounter
-
-
-
-
-
-
                     break;
                 } //switch - users menu choise play/exit
             } //while keepRunning
