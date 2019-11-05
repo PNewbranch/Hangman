@@ -39,11 +39,11 @@ namespace Hangman
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Slumpat ord: " + correctWord);
+            Console.Write("(För att underlätta test, slumpat ord är: " + correctWord + ")");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\nHANGMAN" + "\nGissa ordet: ");
             Console.WriteLine(coveredWord);
-            Console.WriteLine("Du har 10 unika gissningar (använd bara små bokstäver), antalet försök kvar: " + guessCounter + "\nHitintills testade bokstäver: " + usedCharacters);
+            Console.WriteLine("Du har 10 unika gissningar på bokstäver eller ord (använd små bokstäver), försök kvar: " + guessCounter + "\nAnvända tecken: " + usedCharacters);
             Console.WriteLine("\nDina val:\n1 = testa bokstav\n2 = testa ord\n9 = ge upp");
 
         }
@@ -121,7 +121,7 @@ namespace Hangman
                                 break;
 
                             case '1':
-                                char charFromUser = AskForACharacter(" Ange en lite bokstav: ");
+                                char charFromUser = AskForACharacter("\nAnge en liten bokstav: ");
                                 if (CheckIfUsedChar(charFromUser, usedCharacters) == false) 
                                 {
                                     usedCharacters.Append(charFromUser);
@@ -147,6 +147,8 @@ namespace Hangman
                                         {
                                             coveredWord[i] = correctWord[i];
                                         }
+                                        guessCounter--;
+                                        ShowUserInterface(correctWord, coveredWord, guessCounter, usedCharacters);
                                         ShowCorrectResult(correctWord, coveredWord);
                                         guessCounter = -99;
                                     }
@@ -155,9 +157,11 @@ namespace Hangman
                                 break;
 
                             case '2':
-                                string wordFromUser = AskForAString(" Ange ett ord: ");
+                                string wordFromUser = AskForAString("\nAnge ett ord: ");
                                 if (wordFromUser == correctWord) 
                                 {
+                                    guessCounter--;
+                                    ShowUserInterface(correctWord, coveredWord, guessCounter, usedCharacters);
                                     ShowCorrectResult(correctWord, coveredWord);
                                     guessCounter = -99;
                                 }
