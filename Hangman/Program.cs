@@ -147,7 +147,6 @@ namespace Hangman
                                         {
                                             coveredWord[i] = correctWord[i];
                                         }
-                                        guessCounter--;
                                         ShowUserInterface(correctWord, coveredWord, guessCounter, usedCharacters);
                                         ShowCorrectResult(correctWord, coveredWord);
                                         guessCounter = -99;
@@ -160,7 +159,6 @@ namespace Hangman
                                 string wordFromUser = AskForAString("\nAnge ett ord: ");
                                 if (wordFromUser == correctWord) 
                                 {
-                                    guessCounter--;
                                     ShowUserInterface(correctWord, coveredWord, guessCounter, usedCharacters);
                                     ShowCorrectResult(correctWord, coveredWord);
                                     guessCounter = -99;
